@@ -29,7 +29,7 @@ let package = Package(
                 .process("Resources/JSON")
             ]),
         .testTarget(
-            name: "Tests",
+            name: "CoreTests",
             dependencies: ["Core"],
             path: "Tests")
     ]
