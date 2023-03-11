@@ -51,11 +51,14 @@ final class MyAccountsViewModel {
             let bankId = UUID()
             partialResult.append(.accountsSummary(.init(bankId: bankId, bankSubsidiaryName: bank.name, totalBalance: "\(String(totalBalance)) €")))
             
-            let accountDetailsRows = bank.accounts.map { account in
-                let operations = getAccountOperationsUIModels(models: account.operations)
-                let accountDetailsUIModel = MyAccountDetailsUIModel(bankId: bankId, name: account.label, balance: "\(String(account.balance)) €", operations: operations)
-                return MyAccountsRow.accountDetails(accountDetailsUIModel)
-            }
+            let accountDetailsRows = bank.accounts
+                .sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+                .map { account in
+                    let operations = getAccountOperationsUIModels(models: account.operations)
+                    let accountDetailsUIModel = MyAccountDetailsUIModel(bankId: bankId, name: account.label, balance: "\(String(account.balance)) €", operations: operations)
+                    return MyAccountsRow.accountDetails(accountDetailsUIModel)
+                }
+ 
             partialResult.append(contentsOf: accountDetailsRows)
         }
     }
