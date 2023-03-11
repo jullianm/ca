@@ -8,9 +8,9 @@
 import UIKit
 @testable import App
 
-final class MyAccountsViewControllerMock: MyAccountsViewControllerPresentable {
+final class MyAccountsViewControllerMock: MyAccountsViewPresentable {
     var viewModel: MyAccountsViewModel?
-    
+    var coordinator: MyAccountsDelegate?
     var dataSource: [MyAccountsSection] = []
     var errorMessage: String? = nil
     

@@ -27,7 +27,7 @@ final class MyAccountsViewModelTests: XCTestCase {
     
     func testDidReceiveDataSource() async {
         // Given
-        sut = MyAccountsViewModel(controller: controllerMock, service: mockAPIService)
+        sut = MyAccountsViewModel(controller: controllerMock, coordinator: self, service: mockAPIService)
         
         // When
         await sut.fetchMyAccounts()
@@ -39,7 +39,7 @@ final class MyAccountsViewModelTests: XCTestCase {
     func testDidReceiveError() async {
         // Given
         mockAPIService.apiError = .badURL
-        sut = MyAccountsViewModel(controller: controllerMock, service: mockAPIService)
+        sut = MyAccountsViewModel(controller: controllerMock, coordinator: self, service: mockAPIService)
         
         // When
         await sut.fetchMyAccounts()
@@ -48,4 +48,8 @@ final class MyAccountsViewModelTests: XCTestCase {
         XCTAssertEqual(controllerMock.errorMessage.isNil, false)
     }
 
+}
+
+extension MyAccountsViewModelTests: MyAccountsDelegate {
+    func presentOperations(_ operations: MyAccountDetailsUIModel) {}
 }
