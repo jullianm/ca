@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MyAccountsDelegate: AnyObject {
+    func presentOperations(_ operations: MyAccountDetailsUIModel)
+}
+
 final class MyAccountsCoordinator: Coordinator {
     var parent: Coordinator?
     var children: [Coordinator] = []
@@ -31,8 +35,16 @@ final class MyAccountsCoordinator: Coordinator {
     
     func start() {
         let myAccountsViewController: MyAccountsViewController = .loadControllerFromNib()
-        _ = MyAccountsViewModel(controller: myAccountsViewController)
+        _ = MyAccountsViewModel(controller: myAccountsViewController, coordinator: self)
         myAccountsViewController.title = "Mes Comptes"
         navigationController?.setViewControllers([myAccountsViewController], animated: false)
+    }
+}
+
+extension MyAccountsCoordinator: MyAccountsDelegate {
+    func presentOperations(_ operations: MyAccountDetailsUIModel) {
+        let operationsCoordinator = MyOperationsCoordinator(navigationController: navigationController, operations: operations)
+        operationsCoordinator.start()
+        addChild(operationsCoordinator)
     }
 }

@@ -26,6 +26,7 @@ struct MyAccountDetailsUIModel {
 }
 
 struct MyAccountOperationUIModel {
+    let title: String
     let amount: String
     let date: String
 }

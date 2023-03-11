@@ -7,17 +7,19 @@
 
 import UIKit
 
-protocol MyAccountsViewControllerPresentable: AnyObject {
+protocol MyAccountsViewPresentable: AnyObject {
     var viewModel: MyAccountsViewModel? { get set }
+    var coordinator: MyAccountsDelegate? { get set }
     
     func presentMyAccounts(_ myAccounts: [MyAccountsSection])
     func presentErrorMessage(_ errorMessage: String)
 }
 
-final class MyAccountsViewController: UIViewController, MyAccountsViewControllerPresentable {
+final class MyAccountsViewController: UIViewController, MyAccountsViewPresentable {
     @IBOutlet private weak var tableView: UITableView!
 
     var viewModel: MyAccountsViewModel?
+    var coordinator: MyAccountsDelegate?
     private var dataSource: [MyAccountsSection] = []
     private var expandedBanks: [UUID: Bool] = [:]
 
@@ -127,8 +129,8 @@ extension MyAccountsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.beginUpdates()
                 applyUpdates(indexPath: indexPath, selectedBankId: uiModel.bankId)
                 tableView.endUpdates()
-            default:
-                break
+            case .accountDetails(let uiModel):
+                coordinator?.presentOperations(uiModel)
             }
         }
     }

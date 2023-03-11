@@ -13,13 +13,14 @@ protocol MyAccountsViewModelable: AnyObject {
 }
 
 final class MyAccountsViewModel {
-    private unowned var controller: MyAccountsViewControllerPresentable
+    private unowned var controller: MyAccountsViewPresentable
     private let service: APIService
     
-    init(controller: MyAccountsViewControllerPresentable, service: APIService = MockAPIService()) {
+    init(controller: MyAccountsViewPresentable, coordinator: MyAccountsDelegate, service: APIService = MockAPIService()) {
         self.controller = controller
         self.service = service
         self.controller.viewModel = self
+        self.controller.coordinator = coordinator
     }
     
     @MainActor
@@ -39,8 +40,11 @@ final class MyAccountsViewModel {
         let caRows = getMyAccountsRows(models: models.filter { $0.isCA == 1 })
         let othersRows = getMyAccountsRows(models: models.filter { $0.isCA == 0 })
             
-        let caSection = MyAccountsSection.ca(.init(header: "Crédit Agricole", rows: caRows))
-        let othersSection = MyAccountsSection.others(.init(header: "Autres banques", rows: othersRows))
+        let caSection = MyAccountsSection.ca(.init(header: "Crédit Agricole",
+                                                   rows: caRows))
+        
+        let othersSection = MyAccountsSection.others(.init(header: "Autres banques",
+                                                           rows: othersRows))
         
         return [caSection, othersSection]
     }
@@ -49,13 +53,18 @@ final class MyAccountsViewModel {
         models.reduce(into: [MyAccountsRow]()) { partialResult, bank in
             let totalBalance = bank.accounts.map { $0.balance }.reduce(0, +).rounded
             let bankId = UUID()
-            partialResult.append(.accountsSummary(.init(bankId: bankId, bankSubsidiaryName: bank.name, totalBalance: "\(String(totalBalance)) €")))
+            partialResult.append(.accountsSummary(.init(bankId: bankId,
+                                                        bankSubsidiaryName: bank.name,
+                                                        totalBalance: "\(String(totalBalance)) €")))
             
             let accountDetailsRows = bank.accounts
                 .sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
                 .map { account in
                     let operations = getAccountOperationsUIModels(models: account.operations)
-                    let accountDetailsUIModel = MyAccountDetailsUIModel(bankId: bankId, name: account.label, balance: "\(String(account.balance)) €", operations: operations)
+                    let accountDetailsUIModel = MyAccountDetailsUIModel(bankId: bankId,
+                                                                        name: account.label,
+                                                                        balance: "\(String(account.balance)) €",
+                                                                        operations: operations)
                     return MyAccountsRow.accountDetails(accountDetailsUIModel)
                 }
  
@@ -64,14 +73,23 @@ final class MyAccountsViewModel {
     }
     
     private func getAccountOperationsUIModels(models: [MyAccounts.Account.Operation]) -> [MyAccountOperationUIModel] {
-        models.map { operation in
-            let formatter = DateFormatter()
-            formatter.dateStyle = .short
-            let date = Double(operation.date)!
-            let d = Date(timeIntervalSince1970: date)
-            
-            return MyAccountOperationUIModel(amount: operation.amount, date: formatter.string(from: d))
-        }
+        models
+            .map { operation in
+                let formatter = DateFormatter()
+                formatter.locale = Locale(identifier: "fr_FR")
+                formatter.dateStyle = .short
+                let date = Double(operation.date).or(Date.timeIntervalSinceReferenceDate)
+                
+                return MyAccountOperationUIModel(title: operation.title,
+                                                 amount: "\(operation.amount) €",
+                                                 date: formatter.string(from: Date(timeIntervalSince1970: date)))
+            }.sorted {
+                if $0.date == $1.date {
+                    return $0.title.lowercased() < $1.title.lowercased()
+                } else {
+                    return $0.date > $1.date
+                }
+            }
     }
     
 }
