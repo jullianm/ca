@@ -8,11 +8,11 @@
 import Foundation
 
 public protocol APIService {
-    func fetch<T: Decodable>(endpoint: Endpoint, model: T.Type) async throws -> Result<T, APIError>
+    func fetch<T: Decodable>(endpoint: Endpoint, model: T.Type) async -> Result<T, APIError>
 }
 
 extension URLSession: APIService {
-    public func fetch<T: Decodable>(endpoint: Endpoint, model: T.Type) async throws -> Result<T, APIError> {
+    public func fetch<T: Decodable>(endpoint: Endpoint, model: T.Type) async -> Result<T, APIError> {
         guard let request = endpoint.urlRequest else {
             return .failure(.badURL)
         }

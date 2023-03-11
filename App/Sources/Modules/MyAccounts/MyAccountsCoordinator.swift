@@ -14,10 +14,25 @@ final class MyAccountsCoordinator: Coordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.setupNavigationController()
+    }
+    
+    private func setupNavigationController() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        appearance.backgroundColor = .systemGroupedBackground
+        appearance.shadowColor = .clear
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     func start() {
         let myAccountsViewController: MyAccountsViewController = .loadControllerFromNib()
+        _ = MyAccountsViewModel(controller: myAccountsViewController)
+        myAccountsViewController.title = "Mes Comptes"
         navigationController?.setViewControllers([myAccountsViewController], animated: false)
     }
 }
