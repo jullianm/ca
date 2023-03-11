@@ -9,7 +9,7 @@ import UIKit
 @testable import App
 
 final class MyOperationsViewControllerMock: MyOperationsViewPresentable {
-    var viewModel: MyOperationsViewModel?
+    var viewModel: MyOperationsViewModelable?
     var dataSource: MyAccountDetailsUIModel?
     
     func presentMyOperations(_ myOperations: MyAccountDetailsUIModel) {
