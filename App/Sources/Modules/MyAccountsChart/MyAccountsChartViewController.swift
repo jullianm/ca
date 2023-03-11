@@ -6,24 +6,44 @@
 //
 
 import UIKit
+import Charts
 
-class MyAccountsChartViewController: UIViewController {
+protocol MyAccountsChartViewPresentable: AnyObject {
+    var viewModel: MyAccountsChartViewModelable? { get set }
+    
+    func presentChart(uiModel: MyAccountsChartUIModel)
+    func presentErrorMessage(_ errorMessage: String)
+}
 
+final class MyAccountsChartViewController: UIViewController, MyAccountsChartViewPresentable {
+    @IBOutlet private weak var pieChartView: PieChartView!
+    
+    var viewModel: MyAccountsChartViewModelable?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        fetchDatasource()
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    private func fetchDatasource() {
+        Task {
+            await viewModel?.fetchMyAccounts()
+        }
     }
-    */
-
+    
+    func presentChart(uiModel: MyAccountsChartUIModel) {
+        pieChartView.data = uiModel.pieChartData
+        pieChartView.noDataText = "No data available"
+        pieChartView.transparentCircleColor = UIColor.clear
+        pieChartView.holeRadiusPercent = 0.2
+        pieChartView.chartDescription.enabled = false
+        pieChartView.legend.enabled = false
+        pieChartView.animate(xAxisDuration: 0.6, yAxisDuration: 0.6)
+    }
+    
+    func presentErrorMessage(_ errorMessage: String) {
+        let alert = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }

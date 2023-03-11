@@ -12,7 +12,7 @@ protocol MyAccountsViewModelable: AnyObject {
     @MainActor func fetchMyAccounts() async
 }
 
-final class MyAccountsViewModel {
+final class MyAccountsViewModel: MyAccountsViewModelable {
     private unowned var controller: MyAccountsViewPresentable
     private let service: APIService
     

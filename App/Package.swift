@@ -15,14 +15,18 @@ let package = Package(
             targets: ["App"]),
     ],
     dependencies: [
-        .package(path: "../Core")
+        .package(path: "../Core"),
+        .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.1.0"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "App",
-            dependencies: [],
+            dependencies: [
+                .product(name: "Charts", package: "Charts"),
+                .product(name: "Core", package: "Core")
+            ],
             path: "Sources",
             resources: [
                 .process("Resources/Xib")

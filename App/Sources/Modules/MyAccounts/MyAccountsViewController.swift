@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MyAccountsViewPresentable: AnyObject {
-    var viewModel: MyAccountsViewModel? { get set }
+    var viewModel: MyAccountsViewModelable? { get set }
     var coordinator: MyAccountsDelegate? { get set }
     
     func presentMyAccounts(_ myAccounts: [MyAccountsSection])
@@ -18,7 +18,7 @@ protocol MyAccountsViewPresentable: AnyObject {
 final class MyAccountsViewController: UIViewController, MyAccountsViewPresentable {
     @IBOutlet private weak var tableView: UITableView!
 
-    var viewModel: MyAccountsViewModel?
+    var viewModel: MyAccountsViewModelable?
     var coordinator: MyAccountsDelegate?
     private var dataSource: [MyAccountsSection] = []
     private var expandedBanks: [UUID: Bool] = [:]

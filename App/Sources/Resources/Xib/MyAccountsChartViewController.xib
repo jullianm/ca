@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyAccountsChartViewController" customModuleProvider="target">
             <connections>
+                <outlet property="pieChartView" destination="EOD-a2-o5g" id="qM4-YR-qwh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,14 +18,29 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EOD-a2-o5g" customClass="PieChartView" customModule="Charts">
+                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                </view>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="EOD-a2-o5g" secondAttribute="trailing" id="5Gr-MN-lqH"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="EOD-a2-o5g" secondAttribute="bottom" id="5Zf-nA-lC1"/>
+                <constraint firstItem="EOD-a2-o5g" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="N6G-TO-M8B"/>
+                <constraint firstItem="EOD-a2-o5g" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Rgw-GV-HQf"/>
+            </constraints>
             <point key="canvasLocation" x="140" y="20"/>
         </view>
     </objects>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

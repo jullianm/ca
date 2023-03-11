@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MyOperationsViewPresentable: AnyObject {
-    var viewModel: MyOperationsViewModel? { get set }
+    var viewModel: MyOperationsViewModelable? { get set }
     
     func presentMyOperations(_ myOperations: MyAccountDetailsUIModel)
 }
@@ -16,7 +16,7 @@ protocol MyOperationsViewPresentable: AnyObject {
 final class MyOperationsViewController: UIViewController, MyOperationsViewPresentable {
     @IBOutlet private weak var tableView: UITableView!
     
-    var viewModel: MyOperationsViewModel?
+    var viewModel: MyOperationsViewModelable?
     private var accountDetails: MyAccountDetailsUIModel?
     private var operations: [MyAccountOperationUIModel] {
         (accountDetails?.operations).or([])

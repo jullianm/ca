@@ -18,6 +18,7 @@ final class MyAccountsChartCoordinator: Coordinator {
     
     func start() {
         let myAccountsChartViewController: MyAccountsChartViewController = .loadControllerFromNib()
+        _ = MyAccountsChartViewModel(controller: myAccountsChartViewController)
         navigationController?.setViewControllers([myAccountsChartViewController], animated: false)
     }
 }
