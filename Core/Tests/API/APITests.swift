@@ -13,7 +13,7 @@ class APITests: XCTestCase {
         let endpoint = Endpoint.getAccounts
         
         // When
-        let result = try await sut.fetch(endpoint: endpoint, model: [MyAccounts].self)
+        let result = await sut.fetch(endpoint: endpoint, model: [MyAccounts].self)
         
         // Then
         switch result {

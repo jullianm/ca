@@ -24,7 +24,7 @@ final class MyOperationsViewModelTests: XCTestCase {
     
     func testDidReceiveDataSource() async {
         // Given
-        sut = MyOperationsViewModel(controller: controllerMock, operations: .mock)
+        sut = MyOperationsViewModel(controller: controllerMock, operations: .mock, coordinator: self)
         
         // When
         sut.fetchOperations()
@@ -34,3 +34,6 @@ final class MyOperationsViewModelTests: XCTestCase {
     }
 }
 
+extension MyOperationsViewModelTests: MyOperationsDelegate {
+    func navigateBack() {}
+}

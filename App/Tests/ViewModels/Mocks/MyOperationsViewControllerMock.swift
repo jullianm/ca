@@ -9,6 +9,7 @@ import UIKit
 @testable import App
 
 final class MyOperationsViewControllerMock: MyOperationsViewPresentable {
+    var coordinator: MyOperationsDelegate?
     var viewModel: MyOperationsViewModelable?
     var dataSource: MyAccountDetailsUIModel?
     
