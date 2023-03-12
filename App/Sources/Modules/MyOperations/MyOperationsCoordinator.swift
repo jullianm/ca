@@ -16,11 +16,6 @@ final class MyOperationsCoordinator: Coordinator {
     init(navigationController: UINavigationController?, operations: MyAccountDetailsUIModel) {
         self.navigationController = navigationController
         self.operations = operations
-        self.setupNavigationController()
-    }
-    
-    private func setupNavigationController() {
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     func start() {

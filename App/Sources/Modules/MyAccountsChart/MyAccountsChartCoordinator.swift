@@ -14,11 +14,18 @@ final class MyAccountsChartCoordinator: Coordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.setupNavigationController()
+    }
+    
+    private func setupNavigationController() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     func start() {
         let myAccountsChartViewController: MyAccountsChartViewController = .loadControllerFromNib()
         _ = MyAccountsChartViewModel(controller: myAccountsChartViewController)
+        myAccountsChartViewController.title = "Ma répartition"
         navigationController?.setViewControllers([myAccountsChartViewController], animated: false)
     }
 }

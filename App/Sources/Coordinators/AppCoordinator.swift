@@ -32,9 +32,9 @@ enum Tab: Int, CaseIterable {
     var title: String {
         switch self {
         case .myAccounts:
-            return "My Accounts"
+            return "Mes comptes"
         case .myAccountsChart:
-            return "Chart"
+            return "Ma répartition"
         }
     }
 }
