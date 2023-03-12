@@ -33,12 +33,11 @@ final class MyAccountsChartViewController: UIViewController, MyAccountsChartView
     
     func presentChart(uiModel: MyAccountsChartUIModel) {
         pieChartView.data = uiModel.pieChartData
-        pieChartView.noDataText = "No data available"
-        pieChartView.transparentCircleColor = UIColor.clear
-        pieChartView.holeRadiusPercent = 0.2
+        pieChartView.legend.horizontalAlignment = .center
+        pieChartView.holeRadiusPercent = 0.55
         pieChartView.chartDescription.enabled = false
         pieChartView.legend.enabled = false
-        pieChartView.animate(xAxisDuration: 0.6, yAxisDuration: 0.6)
+        pieChartView.animate(yAxisDuration: 0.5, easingOption: .easeInBack)
     }
     
     func presentErrorMessage(_ errorMessage: String) {

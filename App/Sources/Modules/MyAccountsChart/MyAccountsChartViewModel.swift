@@ -47,27 +47,21 @@ final class MyAccountsChartViewModel: MyAccountsChartViewModelable {
         }
 
         let pieChartDataSet = PieChartDataSet(entries: chartEntries, label: "My Accounts")
-        let colors: [UIColor] = [.systemOrange,
-                                 .systemIndigo,
-                                 .systemBlue,
-                                 .systemBrown,
-                                 .systemOrange,
-                                 .systemGreen,
-                                 .systemYellow]
         
+        var colors: [UIColor] = []
+        for _ in 0..<chartEntries.count {
+            let red = Double(arc4random_uniform(255))
+            let green = Double(arc4random_uniform(255))
+            let blue = Double(arc4random_uniform(255))
+            
+            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
+            colors.append(color)
+        }
+         
         pieChartDataSet.colors = colors
-        
         let pieChartData = PieChartData(dataSet: pieChartDataSet)
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .percent
-        formatter.maximumFractionDigits = 10
-        formatter.multiplier = 1.0
-        formatter.percentSymbol = "%"
-//        formatter.currencySymbol = "€"
-        formatter.zeroSymbol = ""
-        pieChartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
-        
-        
+        pieChartDataSet.valueFormatter = YAxisValueFormatter()
+
         return .init(pieChartData: pieChartData)
     }
 }
