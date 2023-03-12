@@ -15,7 +15,7 @@ final class MyOperationsCoordinator: Coordinator {
     var parent: Coordinator?
     var children: [Coordinator] = []
     var navigationController: UINavigationController?
-    let onFinish: (Coordinator) -> Void
+    private let onFinish: (Coordinator) -> Void
     private var operations: MyAccountDetailsUIModel
     
     init(navigationController: UINavigationController?, operations: MyAccountDetailsUIModel, onFinish: @escaping (Coordinator) -> Void) {
