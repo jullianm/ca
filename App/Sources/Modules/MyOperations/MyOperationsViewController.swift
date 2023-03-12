@@ -9,6 +9,7 @@ import UIKit
 
 protocol MyOperationsViewPresentable: AnyObject {
     var viewModel: MyOperationsViewModelable? { get set }
+    var coordinator: MyOperationsDelegate? { get set }
     
     func presentMyOperations(_ myOperations: MyAccountDetailsUIModel)
 }
@@ -17,6 +18,8 @@ final class MyOperationsViewController: UIViewController, MyOperationsViewPresen
     @IBOutlet private weak var tableView: UITableView!
     
     var viewModel: MyOperationsViewModelable?
+    var coordinator: MyOperationsDelegate?
+    
     private var accountDetails: MyAccountDetailsUIModel?
     private var operations: [MyAccountOperationUIModel] {
         (accountDetails?.operations).or([])
@@ -26,6 +29,11 @@ final class MyOperationsViewController: UIViewController, MyOperationsViewPresen
         super.viewDidLoad()
         setupTableView()
         fetchOperations()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        coordinator?.navigateBack()
     }
     
     private func setupTableView() {

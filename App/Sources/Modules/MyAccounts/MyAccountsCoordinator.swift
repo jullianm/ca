@@ -43,7 +43,11 @@ final class MyAccountsCoordinator: Coordinator {
 
 extension MyAccountsCoordinator: MyAccountsDelegate {
     func presentOperations(_ operations: MyAccountDetailsUIModel) {
-        let operationsCoordinator = MyOperationsCoordinator(navigationController: navigationController, operations: operations)
+        let onFinish: (Coordinator) -> Void = {
+            $0.removeFromParent()
+        }
+        
+        let operationsCoordinator = MyOperationsCoordinator(navigationController: navigationController, operations: operations, onFinish: onFinish)
         operationsCoordinator.start()
         addChild(operationsCoordinator)
     }
