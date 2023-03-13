@@ -51,7 +51,7 @@ final class MyAccountsViewModel: MyAccountsViewModelable {
     
     private func getMyAccountsRows(models: [MyAccounts]) -> [MyAccountsRow] {
         models.reduce(into: [MyAccountsRow]()) { partialResult, bank in
-            let totalBalance = bank.accounts.map { $0.balance }.reduce(0, +).formatted
+            let totalBalance = bank.accounts.map { $0.balance }.reduce(0, +).formattedAmount
             let bankId = UUID()
             
             if let totalBalanceText = totalBalance {
@@ -66,7 +66,7 @@ final class MyAccountsViewModel: MyAccountsViewModelable {
                 .compactMap { account in
                     let operations = getAccountOperationsUIModels(models: account.operations)
                     
-                    if let balanceText = account.balance.formatted {
+                    if let balanceText = account.balance.formattedAmount {
                         let accountDetailsUIModel = MyAccountDetailsUIModel(bankId: bankId,
                                                                             name: account.label,
                                                                             balance: balanceText,
@@ -84,15 +84,16 @@ final class MyAccountsViewModel: MyAccountsViewModelable {
     
     private func getAccountOperationsUIModels(models: [MyAccounts.Account.Operation]) -> [MyAccountOperationUIModel] {
         models
-            .map { operation in
-                let formatter = DateFormatter()
-                formatter.locale = Locale(identifier: "fr_FR")
-                formatter.dateStyle = .short
-                let date = Double(operation.date).or(Date.timeIntervalSinceReferenceDate)
-                
-                return MyAccountOperationUIModel(title: operation.title,
-                                                 amount: "\(operation.amount) €",
-                                                 date: formatter.string(from: Date(timeIntervalSince1970: date)))
+            .compactMap { operation in
+                if let date = Double(operation.date),
+                   let formattedDate = date.formattedDate,
+                   let formattedAmount = operation.amount.formattedAmount {
+                    return MyAccountOperationUIModel(title: operation.title,
+                                                     amount: formattedAmount,
+                                                     date: formattedDate)
+                } else {
+                    return nil
+                }
             }.sorted {
                 if $0.date == $1.date {
                     return $0.title.lowercased() < $1.title.lowercased()

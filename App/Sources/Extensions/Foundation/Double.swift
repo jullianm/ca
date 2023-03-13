@@ -8,7 +8,7 @@
 import Foundation
 
 extension Double {
-    var formatted: String? {
+    var formattedAmount: String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.locale = Locale(identifier: "fr_FR")
@@ -20,5 +20,13 @@ extension Double {
         let formattedNumber = formatter.string(from: NSNumber(value: self))
         
         return formattedNumber
+    }
+    
+    var formattedDate: String? {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "fr_FR")
+        formatter.dateStyle = .short
+        
+        return formatter.string(from: Date(timeIntervalSince1970: self))
     }
 }

@@ -13,6 +13,6 @@ final class YAxisValueFormatter: ValueFormatter {
                         entry: ChartDataEntry,
                         dataSetIndex: Int,
                         viewPortHandler: ViewPortHandler?) -> String {
-        value.formatted!
+        value.formattedAmount!
     }
 }
