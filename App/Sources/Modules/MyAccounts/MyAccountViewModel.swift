@@ -51,21 +51,31 @@ final class MyAccountsViewModel: MyAccountsViewModelable {
     
     private func getMyAccountsRows(models: [MyAccounts]) -> [MyAccountsRow] {
         models.reduce(into: [MyAccountsRow]()) { partialResult, bank in
-            let totalBalance = bank.accounts.map { $0.balance }.reduce(0, +).rounded
+            let totalBalance = bank.accounts.map { $0.balance }.reduce(0, +).formatted
             let bankId = UUID()
-            partialResult.append(.accountsSummary(.init(bankId: bankId,
-                                                        bankSubsidiaryName: bank.name,
-                                                        totalBalance: "\(String(totalBalance)) €")))
             
+            if let totalBalanceText = totalBalance {
+                partialResult.append(.accountsSummary(.init(bankId: bankId,
+                                                            bankSubsidiaryName: bank.name,
+                                                            totalBalance: totalBalanceText)))
+                
+            }
+
             let accountDetailsRows = bank.accounts
                 .sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
-                .map { account in
+                .compactMap { account in
                     let operations = getAccountOperationsUIModels(models: account.operations)
-                    let accountDetailsUIModel = MyAccountDetailsUIModel(bankId: bankId,
-                                                                        name: account.label,
-                                                                        balance: "\(String(account.balance)) €",
-                                                                        operations: operations)
-                    return MyAccountsRow.accountDetails(accountDetailsUIModel)
+                    
+                    if let balanceText = account.balance.formatted {
+                        let accountDetailsUIModel = MyAccountDetailsUIModel(bankId: bankId,
+                                                                            name: account.label,
+                                                                            balance: balanceText,
+                                                                            operations: operations)
+                        return MyAccountsRow.accountDetails(accountDetailsUIModel)
+                    } else {
+                        return nil
+                    }
+                    
                 }
  
             partialResult.append(contentsOf: accountDetailsRows)

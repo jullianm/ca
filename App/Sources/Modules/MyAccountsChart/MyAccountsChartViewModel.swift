@@ -39,9 +39,9 @@ final class MyAccountsChartViewModel: MyAccountsChartViewModelable {
     
     private func getChartUIModel(models: [MyAccounts]) -> MyAccountsChartUIModel {
         let chartEntries = models.reduce(into: [PieChartDataEntry]()) { partialResult, bank in
-            let totalBalance = bank.accounts.map { $0.balance }.reduce(0, +).rounded
+            let totalBalance = bank.accounts.map { $0.balance }.reduce(0, +)
             let entry = PieChartDataEntry()
-            entry.y = Double(totalBalance)!
+            entry.y = totalBalance
             entry.label = bank.name
             partialResult.append(entry)
         }
