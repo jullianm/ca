@@ -1,7 +1,7 @@
 
 ## UI
 
-![Simulator Screen Shot - iPhone 14 - 2023-03-13 at 09 42 46](https://user-images.githubusercontent.com/31648126/224650649-daf7f4fa-d4b9-4d8f-8ef5-d245b997c4
+![Simulator Screen Shot - iPhone 14 - 2023-03-13 at 09 42 46](https://user-images.githubusercontent.com/31648126/224651027-f1896c3f-9c97-48ef-bda5-e4c497835fc5.png)
 
 <br><br>
 
