@@ -1,3 +1,17 @@
+
+## UI
+
+![Simulator Screen Shot - iPhone 14 - 2023-03-13 at 09 42 46](https://user-images.githubusercontent.com/31648126/224650649-daf7f4fa-d4b9-4d8f-8ef5-d245b997c4
+
+<br><br>
+
+![Simulator Screen Shot - iPhone 14 - 2023-03-13 at 09 42 37](https://user-images.githubusercontent.com/31648126/224650712-0d2fa077-4d8b-4525-bbba-3f012713c750.png)
+78.png)
+
+<br><br>
+
+![Simulator Screen Shot - iPhone 14 - 2023-03-13 at 09 42 48](https://user-images.githubusercontent.com/31648126/224650814-a75f3f03-6dae-4622-931f-1771f130fd91.png)
+
 ## Architecture
 The application uses two local packages: Core and App to isolate both networking layer (services, decodable models, endpoints..) and UI layer (view controllers, view models, coordinators)<br>
 App package uses MVVM-C to bind business logic from view models to their respective controllers (e.g `MyAccountsViewController`  and `MyAccountsViewModel` ). <br>
